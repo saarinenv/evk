@@ -2,23 +2,23 @@
 Evaluation kit by Ruuvi
 =======================
 
-This guide will walk you through on how to get started with the Wirepas
-evaluation kit.
+This guide will walk you through on how to get started with the Wirepas Mesh (WM)
+evaluation kit (EVK).
 
 
 Kit introduction and Content
 ============================
 
-The Wirepas EVK consists of a preflashed set of Hardware combined with
-Wirepas Tools and reference drivers
+The Wirepas EVK consists of pre-programmed set of hardware combined with
+Wirepas Tools and reference software.
 
 
 Hardware content
 ----------------
 
-- Raspberry pi
+- Raspberry Pi (RPi)
 
-- Pre-configured SD-Card for the Rapsberry pi to operate as a Wirepas Gateway
+- Pre-configured SD-Card for the RPi to operate as a Wirepas Gateway
 
 - Pre-configured USB Dongle to operate as a Wirepas Mesh network sink (connected to the Gateway)
 
@@ -49,8 +49,14 @@ Software Content
     - Optionally Wirepas mesh SDK
 
 **Available on Github**
-    - `View repositories <https://github.com/wirepas>`_
-
+    - `manifest: manifests for usage with repo tool <https://github.com/wirepas/manifest>`_
+    - `backend client: interfacing with MQTT broker and WM gateway <https://github.com/wirepas/backend-client>`_
+    - `backend APIs: language wrappers for interfacing with MQTT broker <https://github.com/wirepas/backend-apis>`_
+    - `gateway: linux gateway implementation <https://github.com/wirepas/gateway>`_
+    - `c-mesh-api: WM reference serial interface protocol <https://github.com/wirepas/c-mesh-api>`_
+    - `wm-utils: builder, flasher and logger for SDK users <https://github.com/wirepas/wm-utils>`_
+    - `wm-config: host configuration utility <https://github.com/wirepas/wm-config>`_
+    - `tutorials: examples and guides on how to setup 3rd party software <https://github.com/wirepas/tutorials>`_
 
 
 
@@ -64,17 +70,16 @@ the instructions (see WNT's user guide in Sharefile) to connect it to your
 trial backend.
 
 
-
 .. # Setup and configure the Ruuvi Tags:
 
 **Setup and configure Gateway**
 
-Once you receive your Kit, start by plugging the sink (usb dongle) to
+Once you receive your kit, start by plugging the sink (usb dongle) to
 one of the usb ports of the raspberry pi. Connect your ethernet or configure
 the pi to access a WiFi network by setting the appropriate configuration
 under */boot/wirepas/custom.env* (see `wm-config`_).
 
-Insert the sdcard and power up the device.
+Ensure the sdcard is plugged in the RPi and power up the device.
 
 Allow a few minutes (10 to 20 minutes) for the device to install any necessary
 updates to the host system and to pull Wirepas service updates. Once the
@@ -87,21 +92,20 @@ with your Ruuvi devices. The application flashed on your Ruuvi tags
 allows you to customize the data rate and which sensors to read from. Such
 customization is done through the AppConfig.
 
-Please review the application note to learn how to set the AppConfig according
+Please review the application note (found in Sharefile) to learn how to set the AppConfig according
 to your needs.
 
+This completes your unboxing!
 
-That completes your unboxing and you are now welcome to review our examples
-at (add link) to keep evaluating our Mesh, build your test cases and data
-exploration and Wirepas application (requires software evaluation license).
-
+Keep reading the next section to learn how to take your evaluation further, such as
+setting up your own broker, building your own visualizations and test cases.
 
 
 Taking the evaluation further
 ==============================
 
 In addition to the kit components you will need a x86_64 Linux where you
-will be installing the:
+will be installing:
 
 - Docker engine
 
@@ -188,7 +192,7 @@ Validate that the broker is running by inspecting the container status
 
     docker ps -a
 
-After these steps your message broker is ready to server publishers and
+After these steps your message broker is ready to serve publishers and
 subscribers according to your `credentials`_. For your information, the
 mosquitto broker has several
 `tools to help you inspect its status <https://github.com/eclipse/mosquitto>`_.
@@ -196,9 +200,9 @@ mosquitto broker has several
 
 Over the next section you will need to know:
 
-- Broker ip or hostname
+- broker ip or hostname
 
-- Broker secure port number
+- broker secure port number
 
 - mosquitto username
 
@@ -209,14 +213,13 @@ Over the next section you will need to know:
 Setting up the gateway software
 -------------------------------
 
-These steps require that you have access to the raspberry pi (rpi) included with
-the Wirepas EVK.
+These steps require that you have access to the RPi included with the EVK.
 
 
 **Logging into the pi**
 
 
-Assuming your host and rpi share the same network environment, you have
+Assuming your host and RPi share the same network environment, you have
 two options to connect remotely to the pi:
 
 - using private and public key pairs (more secure)
@@ -228,8 +231,7 @@ methods. The private and public method is always available but you can
 enable or disable the plain text login.
 
 
-
-*To enable the plain text logins*, insert the rpi sdcard on a host with a
+*To enable the plain text logins*, insert the RPi sdcard on a host with a
 sdcard reader and open the file in /boot/wirepas/custom.env. Locate and
 ensure that the following key has value set to true
 
@@ -253,7 +255,7 @@ read or change hostname from the key
 
 
 
-After you insert the sdacarcd back on the rpi and power it on you can
+After you insert the sdcard back on the RPi and power it on you can
 connect remotely using
 
 ::
@@ -277,7 +279,7 @@ Locate and copy the value of your *public key* to the following key in
     WM_HOST_USER_PPKI
 
 
-After you insert the sdacarcd back on the rpi and power it on you can
+After you insert the sdcard back on the RPi and power it on you can
 connect remotely using
 
 
@@ -331,8 +333,9 @@ If everything is working as expected, you will see data being published from
 
 ::
 
-    2019-02-27 07:55:38,305 | [DEBUG] transport_service: Sending data to: ...
-    2019-02-27 07:55:38,315 | [DEBUG] transport_service: Sending data to: ...
+    2019-02-27 07:55:38,255 | [INFO] transport_service: (...)
+    2019-02-27 07:55:38,305 | [DEBUG] transport_service: (...)
+    2019-02-27 07:55:38,315 | [DEBUG] transport_service: (...)
 
 
 
@@ -345,7 +348,6 @@ If there is no data being sent by the transport service ensure that
 - Your sink is properly connected (inspect the value of docker logs wm-sink)
 
 - Your devices are powered on (make sure the battery protector has been removed)
-
 
 
 
@@ -437,14 +439,14 @@ with
     docker-compose up -d
 
 
-Inpect the status of both fluentd, kibana and elastic search using
+Inspect the status of both fluentd, kibana and elastic search using
 
 ::
 
     docker ps -a
 
 If the containers are restarting, read the installation steps again. If
-everything seems to be in order inpect the stdout of the containers with
+everything seems to be in order inspect the stdout of the containers with
 
 
 ::
@@ -453,7 +455,7 @@ everything seems to be in order inpect the stdout of the containers with
 
 
 
-Asumming all the services are up and running the last step to get data on
+Assuming all the services are up and running the last step to get data on
 kibana is to configure the backend client to push data to fluentd.
 
 
