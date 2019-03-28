@@ -503,3 +503,9 @@ develop custom evaluation scripts.
 .. _`wm-config`: https://github.com/wirepas/wm-config
 
 
+My new section
+==============
+
+This is an example section during the academy
+
+
