@@ -60,7 +60,7 @@ Software Content
 
 
 
-Gettings started
+Getting started
 -----------------
 
 **Install and configure Wirepas Network Tool Client (WNT)**
